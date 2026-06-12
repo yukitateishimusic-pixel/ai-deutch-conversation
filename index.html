@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>立石君の楽しいドイツ語アプリ</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    background:#f4f4f4;
+    padding:40px;
+}
+
+h1{
+    color:#003366;
+}
+
+button{
+    font-size:24px;
+    padding:15px 30px;
+    margin:20px;
+    cursor:pointer;
+}
+
+#result{
+    font-size:40px;
+    font-weight:bold;
+    color:#222;
+    margin-top:30px;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+}
+</style>
+</head>
+<body>
+
+<h1>立石君の楽しいドイツ語アプリ</h1>
+
+<button onclick="startRecognition()">🎤 ドイツ語を話す</button>
+
+<div id="result">
+ここに認識結果が表示されます
+</div>
+
+<script>
+
+function startRecognition(){
+
+const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+if(!SpeechRecognition){
+    alert("このブラウザは音声認識に対応していません");
+    return;
+}
+
+const recognition = new SpeechRecognition();
+
+recognition.lang = "de-DE";
+recognition.interimResults = false;
+recognition.maxAlternatives = 1;
+
+recognition.start();
+
+document.getElementById("result").innerHTML =
+"聞き取り中...";
+
+recognition.onresult = function(event){
+
+const text =
+event.results[0][0].transcript;
+
+document.getElementById("result").innerHTML =
+text;
+
+};
+
+recognition.onerror = function(event){
+
+document.getElementById("result").innerHTML =
+"エラー: " + event.error;
+
+};
+
+}
+
+</script>
+
+</body>
+</html>
